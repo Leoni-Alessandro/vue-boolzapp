@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolzapp</title>
+    <!--css-->
+    <link rel="stylesheet" href="./css/style.css">
+    <!--vue js-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+    <!--font awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <!--font-family-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="container">
+
+        <!--left section-->
+
+        <div class="left-container">
+
+            <!--left container-->
+
+            <section class="user-section">
+
+                <!--Boolzap user-->
+
+                <div>
+                    <img class="account-image" :src="`./img/avatar${user.avatar}.jpg`" alt="">
+
+                    <span class="name-user">{{user.nameUser}}</span>
+
+                </div>
+
+                <!--icon user-->
+
+                <div>
+                    <i class="fas fa-circle-notch cursor-pointer"></i>
+                    <i class="fas fa-comment-alt cursor-pointer"></i>
+                    <i class="fas fa-ellipsis-v cursor-pointer"></i>
+
+                </div>
+
+            </section>
+
+            <!--left container avvisi-->
+
+            <section class="notifications">
+
+                <div>
+                    <div class="icon-notifications">
+                        <i class="fas fa-bell-slash"></i>
+                    </div>
+
+                    <div>
+                        <span class="d-block">Ricevi notifiche di nuovi messaggi</span>
+                        <a href="#" class="d-block color-gray-text">Attiva notifiche desktop</a>
+                    </div>
+
+                </div>
+            </section>
+
+            <!--left container search-->
+
+            <section class="search-contact">
+
+                <div class="container-search">
+
+                    <button class="search-button cursor-pointer">
+                        <i class="fas fa-search cursor-pointer color-gray-text"></i>
+                    </button>
+                    <input type="text" class="color-gray text" placeholder="Cerca o inizia una nuova chat" v-model.trim="nameSearch" @keyup="search()">
+                </div>
+            </section>
+
+            <!--left container friends contact-->
+
+            <section class="contact">
+
+                <ul>
+                    <li v-for="(contact, i) in contacts" class="list-contact cursor-pointer" :class="{chatActive: activeChat == i}" v-show="contact.visible == true" @click="currentChat(i)">
+
+                        <img class="account-image" :src="`./img/avatar${contact.avatar}.jpg`" alt="">
+
+                        <span class="name-user">{{contact.name}}</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+
+
+        <!--right section chat-->
+
+        <div class="right-container">
+
+            <!--left container my section-->
+
+            <section class="user-section">
+
+                <!--image and user info-->
+
+                <div>
+                    <img class="account-image" :src="`./img/avatar${contacts[activeChat].avatar}.jpg`" alt="">
+
+                    <div>
+                        <span class="name-user">{{contacts[activeChat].name}}</span>
+                        <span class="last-access">Ultimo accesso oggi alle {{lastAcces}}</span>
+                    </div>
+
+                </div>
+
+                <!--icon user-->
+
+                <div class="icone-chat">
+                    <i class="fas fa-search cursor-pointer"></i>
+                    <i class="fas fa-paperclip cursor-pointer"></i>
+                    <i class="menu-chat fas fa-ellipsis-v cursor-pointer" @click="downMenuChat"></i>
+                </div>
+            </section>
+
+            <!-- right sec message section-->
+
+            <section class="message" ref="scroll">
+
+                <div v-for="(contact, i) in contacts[activeChat].messages" :class="{sentMessage: contact.status === 'sent',
+                            receiveMessage: contact.status === 'received'}">
+
+                    <span class="box-message">
+                        <span class="text-message">{{contact.text}}</span>
+
+                    <span class="message-time">{{contact.date}}</span>
+                    </span>
+
+                </div>
+
+            </section>
+
+            <!--right container chat footer-->
+
+            <section class="footer-chat">
+
+                <i class="far fa-smile cursor-pointer"></i>
+
+                <input type="text" class="footer-text-chat" placeholder="Scrivi un messaggio" v-model.trim="newMessage" @keyup.enter="sendMessage()" ref="messInput">
+
+                <i class="fas fa-microphone cursor-pointer"></i>
+            </section>
+        </div>
+
+    </div>
+
+
+
+    <script src="./js/main.js "></script>
+</body>
+
+</html>
